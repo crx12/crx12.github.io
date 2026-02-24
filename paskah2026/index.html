@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GSP Sendangguwo - Flip Booklet</title>
+    <link rel="icon" type="image/png" href="paroki.png">
+    <!-- Tailwind for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- jQuery required by Turn.js -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Turn.js for the flip effect -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
+    
+    <style>
+        body {
+            background-color: #f3f4f6;
+            overflow: hidden; /* Prevent body scroll to keep focus on booklet */
+            font-family: system-ui, -apple-system, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #canvas-container {
+            flex-grow: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        #flipbook {
+            margin: 0 auto;
+        }
+
+        .page {
+            background-color: white;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            position: relative;
+        }
+
+        /* Protection for images */
+        .page img {
+            pointer-events: none; 
+            -webkit-touch-callout: none;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments for mobile */
+        @media (max-width: 640px) {
+            #canvas-container {
+                padding: 5px;
+            }
+            .controls-text {
+                display: none;
+            }
+            header h1 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center" oncontextmenu="return false;">
+
+    <!-- Header / Navbar -->
+    <header class="w-full bg-white shadow-sm p-3 flex justify-between items-center z-10">
+        <img src="logo.png" width="8%" alt="Logo Paroki" srcset="">
+        
+        <div id="mainControls" class="flex gap-1 hidden">
+            <button id="prevBtn" class="bg-gray-100 hover:bg-gray-200 p-2 sm:px-4 rounded-lg transition-colors flex items-center">
+                <span class="text-lg">←</span> <span class="controls-text ml-1 text-sm">Prev</span>
+            </button>
+            <div id="pageInfo" class="flex items-center px-2 sm:px-4 font-bold text-sm text-gray-700 bg-gray-50 rounded-md">
+                0 / 0
+            </div>
+            <button id="nextBtn" class="bg-gray-100 hover:bg-gray-200 p-2 sm:px-4 rounded-lg transition-colors flex items-center">
+                <span class="controls-text mr-1 text-sm">Next</span> <span class="text-lg">→</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Viewer Area -->
+    <main id="canvas-container">
+        <div id="statusOverlay" class="flex flex-col items-center text-center max-w-md p-6">
+            <div id="loaderIcon" class="loader mb-4"></div>
+            <h2 id="statusTitle" class="text-lg font-semibold text-gray-700 mb-2">Loading Booklet...</h2>
+            <p id="statusDesc" class="text-gray-500 text-sm">
+                Optimizing for your screen size.
+            </p>
+        </div>
+        <div id="flipbook" class="hidden shadow-2xl">
+            <!-- Pages will be injected here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full p-2 text-center text-gray-400 text-xs">
+        Tarik tepi halaman atau tombol di pojok kanan atas untuk membalik - Developed by <a href="https://https://www.instagram.com/adrian.krisnata/" target="_blank" class="text-blue-500 hover:underline">Fransiskus Adrian Krisnata</a>
+    </footer>
+
+    <script>
+        const IMAGE_FOLDER = 'images/'; 
+        const IMAGE_FILES = [
+            'page1.jpg',
+            'page2.jpg',
+            'page3.jpg',
+            'page4.jpg',
+            'page5.jpg',
+            'page6.jpg',
+            'page7.jpg',
+            'page8.jpg',
+            'page9.jpg',
+            'page10.jpg',
+            'page11.jpg',
+        ];
+        
+        const flipbook = $('#flipbook');
+        const statusOverlay = $('#statusOverlay');
+        const loaderIcon = $('#loaderIcon');
+        const statusTitle = $('#statusTitle');
+        const statusDesc = $('#statusDesc');
+        const pageInfo = $('#pageInfo');
+        const mainControls = $('#mainControls');
+        const uploadWrapper = $('#uploadWrapper');
+
+        $('#uploadBtn').on('click', () => $('#fileInput').click());
+        $('#fileInput').on('change', async (e) => {
+            const files = Array.from(e.target.files).sort((a, b) => a.name.localeCompare(b.name));
+            if (files.length > 0) {
+                const imageUrls = files.map(file => URL.createObjectURL(file));
+                initFlipbook(imageUrls);
+            }
+        });
+
+        function getOptimalSize() {
+            const container = $('#canvas-container');
+            const cw = container.width();
+            const ch = container.height();
+            
+            // Logic to make it as big as possible while keeping aspect ratio
+            // Turn.js usually works best with a width roughly 1.4x the height for double pages
+            let width, height;
+
+            if (cw > 640) { // Desktop/Tablet
+                width = Math.min(cw * 0.98, 1200);
+                height = Math.min(ch * 0.95, 800);
+            } else { // Mobile Phone
+                width = cw * 0.98;
+                height = ch * 0.9;
+            }
+
+            return { width, height };
+        }
+
+        async function initFlipbook(imageSources) {
+            try {
+                statusOverlay.show();
+                loaderIcon.show();
+                statusTitle.text("Preparing images...");
+                
+                if (flipbook.data().done) {
+                    flipbook.turn('destroy');
+                }
+                
+                flipbook.addClass('hidden').empty();
+
+                for (let i = 0; i < imageSources.length; i++) {
+                    const pageDiv = $('<div class="page"></div>');
+                    const img = document.createElement('img');
+                    img.src = imageSources[i];
+                    img.className = "w-full h-full object-contain";
+                    img.setAttribute('draggable', 'false');
+                    img.setAttribute('oncontextmenu', 'return false;');
+                    
+                    img.onerror = () => console.error("Failed to load image:", imageSources[i]);
+
+                    pageDiv.append(img);
+                    flipbook.append(pageDiv);
+                }
+
+                setTimeout(() => {
+                    statusOverlay.hide();
+                    uploadWrapper.addClass('hidden');
+                    flipbook.removeClass('hidden');
+                    mainControls.removeClass('hidden');
+
+                    const size = getOptimalSize();
+
+                    flipbook.turn({
+                        width: size.width,
+                        height: size.height,
+                        autoCenter: true,
+                        duration: 800,
+                        acceleration: true,
+                        gradients: true,
+                        display: $(window).width() < 640 ? 'single' : 'double', // Single page on mobile
+                        when: {
+                            turned: (e, page) => updatePageCounter(page, imageSources.length)
+                        }
+                    });
+
+                    updatePageCounter(1, imageSources.length);
+                }, 500);
+
+            } catch (error) {
+                console.error('Error:', error);
+                loaderIcon.hide();
+                statusTitle.text("Auto-Load Failed");
+                statusDesc.text("Check folder settings or use the Open button.");
+                uploadWrapper.removeClass('hidden');
+            }
+        }
+
+        function updatePageCounter(currentPage, total) {
+            pageInfo.text(`${currentPage} / ${total}`);
+        }
+
+        $('#prevBtn').on('click', () => {
+            if (flipbook.data().done) flipbook.turn('previous');
+        });
+        
+        $('#nextBtn').on('click', () => {
+            if (flipbook.data().done) flipbook.turn('next');
+        });
+
+        $(window).resize(() => {
+            if (flipbook.data().done) {
+                const size = getOptimalSize();
+                flipbook.turn('display', $(window).width() < 640 ? 'single' : 'double');
+                flipbook.turn('size', size.width, size.height);
+            }
+        });
+
+        $(document).ready(() => {
+            const fullPaths = IMAGE_FILES.map(name => IMAGE_FOLDER + name);
+            initFlipbook(fullPaths);
+        });
+    </script>
+</body>
+</html>
