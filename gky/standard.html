@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Griya Kulon Yogya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="asset/favicon.png">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('asset/GKY004.webp');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .kawung-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30c0-16.57 13.43-30 30-30v60c-16.57 0-30-13.43-30-30zm0 0c0 16.57-13.43 30-30 30V0c16.57 0 30 13.43 30 30z' fill='%234a5d4e' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        .soft-shadow {
+            box-shadow: 0 10px 30px -15px rgba(74, 93, 78, 0.2);
+        }
+
+        .hidden-view {
+            display: none;
+        }
+
+        /* Reveal Animation Styles */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered Delay */
+        .reveal-delay-1 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.4s;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 2.5rem;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            aspect-ratio: 16/9;
+        }
+
+        /* Modal Facility Styles */
+        #facilityModal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="text-slate-800 leading-relaxed">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-500 bg-white/90 backdrop-blur-md border-b border-stone-100 h-20"
+        id="main-nav">
+        <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='./'">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center text-white">
+                    <img src="asset/logo-ct.png" alt="GKY Logo" class="w-5 h-5">
+                </div>
+                <span class="text-xl font-serif font-bold tracking-tight text-[#4A5D4E]">Griya Kulon Yogya</span></span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-stone-600">
+                <a href="#tentang" onclick="handleNavLink(event, 'tentang')"
+                    class="hover:text-[#4A5D4E] transition-colors">Tentang Kami</a>
+                <a href="#kamar" onclick="handleNavLink(event, 'kamar')"
+                    class="hover:text-[#4A5D4E] transition-colors">Kamar & Rumah</a>
+                <a href="#fasilitas" onclick="handleNavLink(event, 'fasilitas')"
+                    class="hover:text-[#4A5D4E] transition-colors">Fasilitas</a>
+                <a href="#kontak" onclick="handleNavLink(event, 'kontak')"
+                    class="px-6 py-2.5 bg-[#4A5D4E] text-white rounded-full hover:bg-[#3d4d40] transition-all soft-shadow">Pesan
+                    Sekarang</a>
+            </div>
+
+            <button class="md:hidden text-[#4A5D4E]">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ROOM DETAIL VIEW -->
+    <main id="detail-view" class="pt-24 min-h-screen">
+        <section class="py-12 bg-white reveal active">
+            <div class="max-w-7xl mx-auto px-6">
+                <!-- Back Button -->
+                <button onclick="window.location.href='./'"
+                    class="flex items-center gap-2 text-[#4A5D4E] font-semibold mb-8 hover:-translate-x-2 transition-transform duration-300">
+                    <i data-lucide="move-left"></i> Kembali ke Beranda
+                </button>
+                <div class="grid lg:grid-cols-2 gap-12 mb-16 reveal active">
+                    <div class="grid grid-cols-4 grid-rows-2 gap-3 h-[500px]">
+                        <div class="col-span-4 row-span-1 overflow-hidden rounded-3xl shadow-lg cursor-pointer group"
+                            onclick="openLightbox(0, ['asset/STR/STR001.webp','asset/STR/STR002.webp','asset/STR/STR003.webp'])">
+                            <img src="asset/STR/STR001.webp"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                        <div class="col-span-2 row-span-1 overflow-hidden rounded-3xl shadow-md cursor-pointer group"
+                            onclick="openLightbox(1, ['asset/STR/STR001.webp','asset/STR/STR002.webp','asset/STR/STR003.webp'])">
+                            <img src="asset/STR/STR002.webp"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                        </div>
+                        <div class="col-span-2 row-span-1 overflow-hidden rounded-2xl shadow-md cursor-pointer group"
+                            onclick="openLightbox(2, ['asset/STR/STR001.webp','asset/STR/STR002.webp','asset/STR/STR003.webp'])">
+                            <img src="asset/STR/STR003.webp"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <span
+                            class="bg-stone-100 text-[#4A5D4E] px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4 inline-block">Privasi
+                            dalam ketenangan</span>
+                        <h1 class="text-4xl md:text-5xl font-serif text-[#4A5D4E] mb-6">Standard Room</h1>
+                        <p class="text-stone-600 text-lg mb-8 leading-relaxed">Oase privat yang bersih dan menenangkan.
+                            Didesain khusus untuk memberikan kedamaian total bagi Anda yang ingin menikmati momen
+                            sendirian atau berdua dalam kesederhanaan yang elegan.
+                        </p>
+                        <div class="bg-stone-50 p-8 rounded-[2rem] border border-stone-100 mb-8 shadow-sm">
+                            <h3 class="font-bold mb-4 flex items-center gap-2 text-[#4A5D4E]">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-[#D4A373]"></i> Fasilitas & Detail
+                            </h3>
+                            <div class="grid grid-cols-2 gap-y-3 gap-x-6">
+                                <div class="flex items-center gap-2 text-stone-600 text-sm">
+                                    <i data-lucide="check" class="w-4 h-4 text-[#4A5D4E]"></i> 1 Queen Bed
+                                </div>
+                                <div class="flex items-center gap-2 text-stone-600 text-sm">
+                                    <i data-lucide="check" class="w-4 h-4 text-[#4A5D4E]"></i> Kamar Mandi Dalam
+                                </div>
+                                <div class="flex items-center gap-2 text-stone-600 text-sm">
+                                    <i data-lucide="check" class="w-4 h-4 text-[#4A5D4E]"></i> AC / TV / WiFi
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between gap-4">
+                            <div>
+                                <p class="text-stone-400 text-sm italic">Harga per malam</p>
+                                <p class="text-3xl font-bold text-[#4A5D4E]">Rp300.000</p>
+                            </div>
+                            <a href="https://wa.me/6281234567890"
+                                class="px-8 py-4 bg-[#4A5D4E] text-white rounded-2xl font-bold shadow-xl shadow-stone-200 hover:bg-[#3d4d40] transition-all">Pesan
+                                Sekarang</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+    </main>
+    <!-- Gallery Lightbox Modal -->
+    <div id="galleryLightbox"
+        class="fixed inset-0 z-[110] bg-black/95 flex flex-col items-center justify-center p-4 opacity-0 invisible">
+        <button onclick="closeLightbox()"
+            class="absolute top-6 right-6 text-white hover:scale-110 transition-transform">
+            <i data-lucide="x" class="w-10 h-10"></i>
+        </button>
+        <div class="max-w-5xl w-full flex items-center gap-4">
+            <button onclick="prevLightbox()" class="text-white/50 hover:text-white"><i data-lucide="chevron-left"
+                    class="w-12 h-12"></i></button>
+            <div class="flex-1 aspect-[16/9] bg-stone-900 rounded-2xl overflow-hidden shadow-2xl">
+                <img id="lightboxImg" src="" class="w-full h-full object-contain">
+            </div>
+            <button onclick="nextLightbox()" class="text-white/50 hover:text-white"><i data-lucide="chevron-right"
+                    class="w-12 h-12"></i></button>
+        </div>
+        <div class="mt-8 text-white/70 font-medium" id="lightboxCounter">1 / 10</div>
+    </div>
+    <!-- Footer -->
+    <footer class="py-12 border-t border-stone-200">
+        <div class="max-w-7xl mx-auto px-6 text-center md:flex justify-between items-center">
+            <p class="text-stone-400 text-sm mb-4 md:mb-0">© 2026 Griya Kulon Yogya. All Rights Reserved.</p>
+            <div class="flex justify-center gap-6">
+                <a href="https://www.instagram.com/griyakulonyogya/" target="_blank" rel="noopener noreferrer"
+                    class="text-stone-400 hover:text-[#4A5D4E] transition-colors"><i data-lucide="instagram"
+                        class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Reveal Animation Logic
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, observerOptions);
+
+        function initReveal() {
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        function handleNavLink(e, targetId) {
+            e.preventDefault();
+            // Melakukan redirect ke index.html dengan anchor targetId
+            window.location.href = `./#${targetId}`;
+        }
+
+        // Lightbox Gallery Logic
+        let activeGallery = [];
+        let activeImgIdx = 0;
+
+        function openLightbox(idx, gallery) {
+            activeGallery = gallery;
+            activeImgIdx = idx;
+            updateLightbox();
+            const lb = document.getElementById('galleryLightbox');
+            lb.classList.remove('invisible');
+            lb.classList.add('opacity-100');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeLightbox() {
+            const lb = document.getElementById('galleryLightbox');
+            lb.classList.remove('opacity-100');
+            lb.classList.add('opacity-0');
+            setTimeout(() => {
+                lb.classList.add('invisible');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        function nextLightbox() {
+            activeImgIdx = (activeImgIdx + 1) % activeGallery.length;
+            updateLightbox();
+        }
+
+        function prevLightbox() {
+            activeImgIdx = (activeImgIdx - 1 + activeGallery.length) % activeGallery.length;
+            updateLightbox();
+        }
+
+        function updateLightbox() {
+            document.getElementById('lightboxImg').src = activeGallery[activeImgIdx];
+            document.getElementById('lightboxCounter').innerText = `${activeImgIdx + 1} / ${activeGallery.length}`;
+        }
+
+        window.addEventListener('scroll', function () {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('h-16', 'shadow-sm');
+                nav.classList.remove('h-20');
+            } else {
+                nav.classList.remove('h-16', 'shadow-sm');
+                nav.classList.add('h-20');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Griya Kulon Yogya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="asset/favicon.png" >
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-gradient {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('asset/GKY004.webp');
+            background-size: cover;
+            background-position: center;
+        }
+        .kawung-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30c0-16.57 13.43-30 30-30v60c-16.57 0-30-13.43-30-30zm0 0c0 16.57-13.43 30-30 30V0c16.57 0 30 13.43 30 30z' fill='%234a5d4e' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .soft-shadow {
+            box-shadow: 0 10px 30px -15px rgba(74, 93, 78, 0.2);
+        }
+        .hidden-view {
+            display: none;
+        }
+
+        /* Reveal Animation Styles */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered Delay */
+        .reveal-delay-1 { transition-delay: 0.2s; }
+        .reveal-delay-2 { transition-delay: 0.4s; }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 2.5rem;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .carousel-item {
+            min-width: 100%;
+            aspect-ratio: 16/9;
+        }
+
+        /* Modal Facility Styles */
+        #facilityModal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+    </style>
+</head>
+<body class="text-slate-800 leading-relaxed">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-500 bg-white/90 backdrop-blur-md border-b border-stone-100 h-20" id="main-nav">
+        <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='./'">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center text-white">
+                    <img src="asset/logo-ct.png" alt="GKY Logo" class="w-5 h-5">
+                </div>
+                <span class="text-xl font-serif font-bold tracking-tight text-[#4A5D4E]">Griya Kulon Yogya</span></span>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-stone-600">
+                <a href="#tentang" onclick="handleNavLink(event, 'tentang')" class="hover:text-[#4A5D4E] transition-colors">Tentang Kami</a>
+                <a href="#kamar" onclick="handleNavLink(event, 'kamar')" class="hover:text-[#4A5D4E] transition-colors">Kamar & Rumah</a>
+                <a href="#fasilitas" onclick="handleNavLink(event, 'fasilitas')" class="hover:text-[#4A5D4E] transition-colors">Fasilitas</a>
+                <a href="#kontak" onclick="handleNavLink(event, 'kontak')" class="px-6 py-2.5 bg-[#4A5D4E] text-white rounded-full hover:bg-[#3d4d40] transition-all soft-shadow">Pesan Sekarang</a>
+            </div>
+
+            <button class="md:hidden text-[#4A5D4E]">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT VIEW -->
+    <main id="home-view">
+        <!-- Hero Section -->
+        <section class="relative h-screen flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 hero-gradient"></div>
+            <div class="relative z-10 text-center px-6 max-w-4xl reveal active">
+                <span class="inline-block text-white/90 tracking-[0.3em] uppercase text-xs mb-4 font-semibold">Selamat Datang di Griya Kulon Yogya</span>
+                <h1 class="text-5xl md:text-7xl text-white mb-6 leading-tight font-serif">Temukan Ketenangan Dalam <br><span class="italic text-stone-200">Sentuhan Tradisi.</span></h1>
+                <p class="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto font-light">Oase peristirahatan modern tropis dengan sentuhan bangunan jawa klasik dan keramahtamahan lingkungan yang hangat.</p>
+                
+                <div class="flex flex-wrap justify-center gap-4 mb-10">
+                    <a href="https://www.agoda.com/griya-kulon-yogya-h44925226/hotel/sendangagung-id.html" target="_blank" rel="noopener noreferer" class="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white hover:bg-white/20 transition-all">
+                        <span class="text-[10px] uppercase tracking-widest block opacity-70">Book on</span>
+                        <span class="font-bold">Agoda</span>
+                    </a>
+                    <a href="https://www.airbnb.co.id/rooms/962956216227436443" target="_blank" rel="noopener noreferer" class="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white hover:bg-white/20 transition-all">
+                        <span class="text-[10px] uppercase tracking-widest block opacity-70">Book on</span>
+                        <span class="font-bold">Airbnb</span>
+                    </a>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#kamar" onclick="handleNavLink(event, 'kamar')" class="px-8 py-4 bg-white text-[#4A5D4E] rounded-full font-semibold hover:bg-stone-100 transition-all flex items-center justify-center gap-2">
+                        Lihat Pilihan Kamar <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#fasilitas" onclick="handleNavLink(event, 'fasilitas')" class="px-8 py-4 bg-transparent border border-white/30 text-white rounded-full font-semibold hover:bg-white/10 transition-all backdrop-blur-sm">
+                        Eksplor Fasilitas
+                    </a>
+                </div>
+            </div>
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 animate-bounce">
+                <i data-lucide="chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- Quick Info -->
+        <section id="tentang" class="py-24 kawung-pattern reveal">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="relative">
+                        <div class="aspect-[4/5] rounded-3xl overflow-hidden soft-shadow border-8 border-white">
+                            <img src="asset/GKY010.webp" alt="Arsitektur Bata Ekspo" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-8 -right-8 bg-[#D4A373] p-8 rounded-2xl text-white hidden lg:block max-w-xs soft-shadow reveal reveal-delay-2">
+                            <p class="font-serif italic text-xl mb-2">"Sentuhan bata ekspo klasik bertemu dengan kenyamanan modern tropis."</p>
+                        </div>
+                    </div>
+                    <div class="reveal reveal-delay-1">
+                        <h2 class="text-4xl mb-6 text-[#4A5D4E] font-serif">Karakter Arsitektur Unik</h2>
+                        <p class="text-stone-600 mb-6 text-lg">Griya Kulon Yogya mengusung konsep <strong>Modern Tropis</strong>. Unit rumah kami menonjolkan kehangatan <strong>bata ekspo klasik</strong> di bagian eksterior, memberikan kesan megah nan bersahaja. Sementara unit kamar didesain dengan <strong>dinding putih minimalis</strong> untuk menciptakan ruang yang lapang, bersih, dan menenangkan.</p>
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-start gap-4">
+                                <div class="mt-1 w-6 h-6 text-[#D4A373]"><i data-lucide="home" class="w-5 h-5"></i></div>
+                                <p class="text-stone-700"><strong>Rumah Klasik:</strong> Desain eksterior bata ekspo yang estetik dan ikonik.</p>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="mt-1 w-6 h-6 text-[#D4A373]"><i data-lucide="layout" class="w-5 h-5"></i></div>
+                                <p class="text-stone-700"><strong>Kamar Minimalis:</strong> Interior serba putih yang nyaman dan hangat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accommodations -->
+        <section id="kamar" class="py-24 bg-[#F4F2EE] reveal">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-20 reveal reveal-delay-1">
+                    <h2 class="text-4xl text-[#4A5D4E] mb-4 font-serif">Pilihan Hunian</h2>
+                    <div class="w-20 h-1 bg-[#D4A373] mx-auto mb-6"></div>
+                    <p class="text-stone-500 max-w-xl mx-auto">Kami menyediakan dua kategori akomodasi utama yang dirancang untuk kebutuhan liburan Anda.</p>
+                </div>
+
+                <!-- Section: Unit Rumah -->
+                <div class="mb-24">
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="h-px bg-stone-300 flex-1"></div>
+                        <h3 class="text-2xl font-serif text-[#4A5D4E] px-4 italic">Unit Rumah (Omah)</h3>
+                        <div class="h-px bg-stone-300 flex-1"></div>
+                    </div>
+                    
+                    <div class="max-w-4xl mx-auto">
+                        <div class="bg-white rounded-[2.5rem] overflow-hidden group soft-shadow border border-stone-100 reveal reveal-delay-1">
+                            <div class="flex flex-col lg:flex-row">
+                                <div class="lg:w-1/2 aspect-video lg:aspect-auto relative overflow-hidden">
+                                    <img src="asset/OM/OM001.webp" alt="Villa Rumah" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                    <div class="absolute top-4 left-4 bg-[#B35C44] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Sentuhan Bata Ekspo</div>
+                                </div>
+                                <div class="lg:w-1/2 p-10 flex flex-col justify-center">
+                                    <h3 class="text-3xl text-[#4A5D4E] mb-4 font-serif">Omah Wardayan</h3>
+                                    <p class="text-stone-500 text-sm mb-6 leading-relaxed">Satu unit rumah utuh yang megah dengan 3 kamar tidur. Sangat cocok untuk keluarga besar atau grup yang menginginkan privasi dan kenyamanan maksimal layaknya di rumah sendiri.</p>
+                                    <div class="space-y-3 mb-8">
+                                        <div class="flex items-center gap-2 text-xs text-stone-400 font-bold uppercase tracking-widest"><i data-lucide="users" class="w-4 h-4 text-[#D4A373]"></i> Kapasitas max 20 Orang</div>
+                                        <div class="flex items-center gap-2 text-xs text-stone-400 font-bold uppercase tracking-widest"><i data-lucide="layout" class="w-4 h-4 text-[#D4A373]"></i> 3 Kamar + Ruang Tamu + Dapur</div>
+                                    </div>
+                                    <div class="flex items-center justify-between border-t border-stone-100 pt-8">
+                                        <div>
+                                            <span class="text-sm text-stone-400 italic">Mulai dari</span>
+                                            <div class="text-2xl font-bold text-[#4A5D4E]">Rp2.000.000<span class="text-sm font-normal text-stone-400">/malam</span></div>
+                                        </div>
+                                        <button onclick="window.location.href='home'" class="bg-[#4A5D4E] text-white px-6 py-3 rounded-xl hover:bg-[#3d4d40] transition-colors font-medium">Detail Rumah</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Unit Kamar -->
+                <div>
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="h-px bg-stone-300 flex-1"></div>
+                        <h3 class="text-2xl font-serif text-[#4A5D4E] px-4 italic">Pilihan Kamar Privat</h3>
+                        <div class="h-px bg-stone-300 flex-1"></div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-10">
+                    <div class="bg-white rounded-[2.5rem] overflow-hidden group soft-shadow border border-stone-100 reveal reveal-delay-1">
+                        <div class="aspect-video overflow-hidden relative">
+                            <img src="asset/FR/FR001.webp" alt="Villa Rumah" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute top-4 left-4 bg-stone-100 text-[#4A5D4E] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Cocok untuk keluarga</div>
+                        </div>
+                        <div class="p-8">
+                            <h3 class="text-2xl text-[#4A5D4E] mb-2 font-serif">Family Room</h3>
+                            <p class="text-stone-500 text-sm mb-4">2 Queen Bed • AC/TV/WiFi • Bisa tambah hingga <strong>4 extrabed</strong></p>
+                            <p class="text-stone-600 mb-6">Ideal untuk menginap bersama keluarga. Kamar luas, tersedia extrabed dan kamar mandi dengan air hangat.</p>
+                            <div class="flex items-center justify-between border-t border-stone-100 pt-6">
+                                <div>
+                                    <span class="text-sm text-stone-400 italic">Mulai dari</span>
+                                    <div class="text-2xl font-bold text-[#4A5D4E]">Rp450.000<span class="text-sm font-normal text-stone-400">/malam</span></div>
+                                </div>
+                                <button onclick="window.location.href='family'" class="bg-[#4A5D4E] text-white px-6 py-3 rounded-xl hover:bg-[#3d4d40] transition-colors font-medium">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-[2.5rem] overflow-hidden group soft-shadow border border-stone-100 reveal reveal-delay-2">
+                        <div class="aspect-video overflow-hidden relative">
+                            <img src="asset/DR/DR001.webp" alt="Kamar Minimalis" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute top-4 left-4 bg-stone-100 text-[#4A5D4E] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Extra Space, Extra Chill</div>
+                        </div>
+                        <div class="p-8">
+                            <h3 class="text-2xl text-[#4A5D4E] mb-2 font-serif">Deluxe Room</h3>
+                            <p class="text-stone-500 text-sm mb-4">2 Queen Bed • AC/TV/WiFi • Bisa tambah <strong>1 extrabed</strong></p>
+                            <p class="text-stone-600 mb-6">Nikmati kelegaan maksimal dalam balutan dinding putih bersih yang menenangkan. Kamar ini adalah oase ketenangan yang sempurna untuk berbagi momen hangat tanpa terasa sesak.</p>
+                            <div class="flex items-center justify-between border-t border-stone-100 pt-6">
+                                <div>
+                                    <span class="text-sm text-stone-400 italic">Mulai dari</span>
+                                    <div class="text-2xl font-bold text-[#4A5D4E]">Rp400.000<span class="text-sm font-normal text-stone-400">/malam</span></div>
+                                </div>
+                                <button onclick="window.location.href='deluxe'" class="bg-[#4A5D4E] text-white px-6 py-3 rounded-xl hover:bg-[#3d4d40] transition-colors font-medium">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-[2.5rem] overflow-hidden group soft-shadow border border-stone-100 reveal reveal-delay-2">
+                        <div class="aspect-video overflow-hidden relative">
+                            <img src="asset/SR/SR001.webp" alt="Kamar Minimalis" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute top-4 left-4 bg-stone-100 text-[#4A5D4E] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Staycation Simpel nan Elegan</div>
+                        </div>
+                        <div class="p-8">
+                            <h3 class="text-2xl text-[#4A5D4E] mb-2 font-serif">Superior Room</h3>
+                            <p class="text-stone-500 text-sm mb-4">1 Queen Bed • 1 Double Bed • AC/TV/WiFi</p>
+                            <p class="text-stone-600 mb-6">Perpaduan kenyamanan modern dan suasana minimalis yang memanjakan mata. Konfigurasi ranjang, memberikan fleksibilitas istirahat di tengah syahdunya atmosfer Yogyakarta.</p>
+                            <div class="flex items-center justify-between border-t border-stone-100 pt-6">
+                                <div>
+                                    <span class="text-sm text-stone-400 italic">Mulai dari</span>
+                                    <div class="text-2xl font-bold text-[#4A5D4E]">Rp350.000<span class="text-sm font-normal text-stone-400">/malam</span></div>
+                                </div>
+                                <button onclick="window.location.href='superior'" class="bg-[#4A5D4E] text-white px-6 py-3 rounded-xl hover:bg-[#3d4d40] transition-colors font-medium">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-[2.5rem] overflow-hidden group soft-shadow border border-stone-100 reveal reveal-delay-2">
+                        <div class="aspect-video overflow-hidden relative">
+                            <img src="asset/STR/STR001.webp" alt="Kamar Minimalis" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute top-4 left-4 bg-stone-100 text-[#4A5D4E] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Privasi Dalam Ketenangan</div>
+                        </div>
+                        <div class="p-8">
+                            <h3 class="text-2xl text-[#4A5D4E] mb-2 font-serif">Standard Room</h3>
+                            <p class="text-stone-500 text-sm mb-4">1 Queen Bed • AC/TV/WiFi</p>
+                            <p class="text-stone-600 mb-6">Oase privat yang bersih dan menenangkan. Didesain khusus untuk memberikan kedamaian total bagi Anda yang ingin menikmati momen sendirian atau berdua dalam kesederhanaan yang elegan.</p>
+                            <div class="flex items-center justify-between border-t border-stone-100 pt-6">
+                                <div>
+                                    <span class="text-sm text-stone-400 italic">Mulai dari</span>
+                                    <div class="text-2xl font-bold text-[#4A5D4E]">Rp300.000<span class="text-sm font-normal text-stone-400">/malam</span></div>
+                                </div>
+                                <button onclick="window.location.href='standard'" class="bg-[#4A5D4E] text-white px-6 py-3 rounded-xl hover:bg-[#3d4d40] transition-colors font-medium">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facilities -->
+        <section id="fasilitas" class="py-24 reveal">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <h2 class="text-4xl text-[#4A5D4E] mb-4 font-serif reveal reveal-delay-1">Fasilitas Penunjang</h2>
+                <p class="text-stone-500 mb-16 max-w-xl mx-auto reveal reveal-delay-2">Klik ikon fasilitas di bawah untuk melihat detail foto dan suasana.</p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div onclick="openFacilityModal('pool')" class="group p-8 bg-white rounded-3xl soft-shadow border border-stone-50 hover:bg-[#4A5D4E] transition-all duration-500 reveal reveal-delay-1 cursor-pointer">
+                        <div class="w-16 h-16 bg-[#F1F5F1] text-[#4A5D4E] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-white/20 group-hover:text-white transition-colors">
+                            <i data-lucide="waves" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="font-bold text-[#4A5D4E] group-hover:text-white mb-2">Kolam Renang</h4>
+                        <span class="text-[10px] text-stone-400 group-hover:text-white/70 uppercase tracking-widest font-bold">Lihat Detail</span>
+                    </div>
+                    
+                    <div onclick="openFacilityModal('pendopo')" class="group p-8 bg-white rounded-3xl soft-shadow border border-stone-50 hover:bg-[#4A5D4E] transition-all duration-500 reveal reveal-delay-2 cursor-pointer">
+                        <div class="w-16 h-16 bg-[#F1F5F1] text-[#4A5D4E] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-white/20 group-hover:text-white transition-colors">
+                            <i data-lucide="house-heart" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="font-bold text-[#4A5D4E] group-hover:text-white mb-2">Pendopo</h4>
+                        <span class="text-[10px] text-stone-400 group-hover:text-white/70 uppercase tracking-widest font-bold">Lihat Detail</span>
+                    </div>
+
+                    <div onclick="openFacilityModal('meeting')" class="group p-8 bg-white rounded-3xl soft-shadow border border-stone-50 hover:bg-[#4A5D4E] transition-all duration-500 reveal reveal-delay-3 cursor-pointer">
+                        <div class="w-16 h-16 bg-[#F1F5F1] text-[#4A5D4E] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-white/20 group-hover:text-white transition-colors">
+                            <i data-lucide="car" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="font-bold text-[#4A5D4E] group-hover:text-white mb-2">Sewa Hiace</h4>
+                        <span class="text-[10px] text-stone-400 group-hover:text-white/70 uppercase tracking-widest font-bold">Lihat Detail</span>
+                    </div>
+
+                    <div onclick="openFacilityModal('parking')" class="group p-8 bg-white rounded-3xl soft-shadow border border-stone-50 hover:bg-[#4A5D4E] transition-all duration-500 reveal reveal-delay-3 cursor-pointer">
+                        <div class="w-16 h-16 bg-[#F1F5F1] text-[#4A5D4E] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-white/20 group-hover:text-white transition-colors">
+                            <i data-lucide="car" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="font-bold text-[#4A5D4E] group-hover:text-white mb-2">Parkir Luas</h4>
+                        <span class="text-[10px] text-stone-400 group-hover:text-white/70 uppercase tracking-widest font-bold">Lihat Detail</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Gallery Carousel Section -->
+        <section id="galeri" class="py-24 bg-[#FDFBF7] reveal">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    <div class="max-w-2xl">
+                        <h2 class="text-4xl text-[#4A5D4E] mb-4 font-serif">Sudut Griya Asri</h2>
+                        <p class="text-stone-500">Jelajahi setiap sudut penginapan kami, dari arsitektur eksterior yang ikonik hingga area publik yang menenangkan.</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="prevSlide()" class="w-12 h-12 rounded-full border border-stone-200 flex items-center justify-center text-[#4A5D4E] hover:bg-[#4A5D4E] hover:text-white transition-all">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <button onclick="nextSlide()" class="w-12 h-12 rounded-full border border-stone-200 flex items-center justify-center text-[#4A5D4E] hover:bg-[#4A5D4E] hover:text-white transition-all">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="carousel-container soft-shadow border-8 border-white">
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-item relative group">
+                            <img src="asset/GL/GL001.webp" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-10">
+                                <p class="text-white font-medium text-lg"></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item relative group">
+                            <img src="asset/GL/GL002.webp" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-10">
+                                <p class="text-white font-medium text-lg"></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item relative group">
+                            <img src="asset/GL/GL003.webp" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-10">
+                                <p class="text-white font-medium text-lg"></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item relative group">
+                            <img src="asset/GL/GL004.webp" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-10">
+                                <p class="text-white font-medium text-lg"></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item relative group">
+                            <img src="asset/GL/GL005.webp" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-10">
+                                <p class="text-white font-medium text-lg"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-2 mt-8" id="carouselDots"></div>
+            </div>
+        </section>
+
+
+        <!-- Map & Booking Listings -->
+        <section id="kontak" class="py-24 kawung-pattern reveal">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="md:col-span-2 bg-white p-8 md:p-12 rounded-[2rem] soft-shadow border border-stone-100 reveal reveal-delay-1">
+                        <h2 class="text-3xl text-[#4A5D4E] mb-8 font-serif text-3xl font-serif">Akses & Lokasi</h2>
+                        <div class="aspect-video bg-stone-100 rounded-2xl mb-8 overflow-hidden shadow-inner">
+                             <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.8425563533588!2d110.26377727697482!3d-7.78875727729791!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7af773a91ee023%3A0x5fc5d71e4e1d1a41!2sGriya%20Kulon%20Yogya!5e0!3m2!1sen!2sid!4v1774114890463!5m2!1sen!2sid" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                             </iframe>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div class="flex gap-4">
+                                <i data-lucide="map-pin" class="text-[#D4A373] shrink-0"></i>
+                                <p class="text-stone-600 text-sm">Gesikan, Kalurahan Sumbersari, Kapanewon Moyudan, Kab. Sleman, DIY</p>
+                            </div>
+                            <div class="flex gap-4">
+                                <i data-lucide="navigation-2" class="text-[#D4A373] shrink-0"></i>
+                                <p class="text-stone-600 text-sm">30 Menit ke Malioboro / <br>Yogyakarta International Airport</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-[#4A5D4E] p-10 rounded-[2rem] text-white soft-shadow flex flex-col justify-center reveal reveal-delay-2">
+                        <h3 class="text-2xl mb-6 font-serif">Pesan Melalui Platform Favorit</h3>
+                        <p class="text-white/70 mb-8 text-sm leading-relaxed">Kami terhubung secara resmi dengan platform global untuk kemudahan transaksi Anda.</p>
+                        
+                        <div class="space-y-4">
+                            <a href="https://www.agoda.com/griya-kulon-yogya-h44925226/hotel/sendangagung-id.html" target="_blank" rel="noopener noreferer" class="w-full flex items-center justify-between p-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl transition-all">
+                                <span class="font-bold">Agoda Listing</span>
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </a>
+                            <a href="https://www.airbnb.co.id/rooms/962956216227436443" target="_blank" rel="noopener noreferer" class="w-full flex items-center justify-between p-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl transition-all">
+                                <span class="font-bold">Airbnb Listing</span>
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+
+                        <div class="mt-10 pt-10 border-t border-white/10">
+                            <p class="text-xs uppercase tracking-widest text-white/50 mb-4">Kontak Langsung</p>
+                            <a href="https://wa.me/6282329051921" target="_blank" rel="noopener noreferer" class="flex items-center gap-4 hover:text-[#D4A373] transition-colors">
+                                <i data-lucide="message-circle"></i>
+                                <span class="font-medium">+62 823-2905-1921</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ROOM DETAIL VIEW -->
+    <main id="detail-view" class="hidden-view pt-24 min-h-screen">
+        <section class="py-12 bg-white reveal active">
+            <div class="max-w-7xl mx-auto px-6">
+                <!-- Back Button -->
+                <button onclick="showView('home', true)" class="flex items-center gap-2 text-[#4A5D4E] font-semibold mb-8 hover:-translate-x-2 transition-transform duration-300">
+                    <i data-lucide="move-left"></i> Kembali ke Beranda
+                </button>
+
+                <div id="detail-content">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Facility Modal -->
+    <div id="facilityModal" class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm opacity-0 invisible">
+        <div class="bg-white rounded-[2.5rem] max-w-4xl w-full overflow-hidden shadow-2xl relative transform scale-95 transition-all duration-300" id="modalContainer">
+            <button onclick="closeFacilityModal()" class="absolute top-6 right-6 z-10 w-12 h-12 bg-white/90 rounded-full flex items-center justify-center text-[#4A5D4E] shadow-lg hover:bg-white transition-colors">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-3/5 aspect-video md:aspect-auto">
+                    <img id="modalImage" src="" alt="Fasilitas" class="w-full h-full object-cover">
+                </div>
+                <div class="md:w-2/5 p-10 flex flex-col justify-center">
+                    <h3 id="modalTitle" class="text-3xl font-serif text-[#4A5D4E] mb-4">Nama Fasilitas</h3>
+                    <p id="modalDesc" class="text-stone-500 leading-relaxed mb-8">Deskripsi singkat mengenai fasilitas yang tersedia di Griya Asri Yogyakarta untuk kenyamanan Anda.</p>
+                    <button onclick="closeFacilityModal()" class="px-8 py-3 border-2 border-[#4A5D4E] text-[#4A5D4E] rounded-xl font-bold hover:bg-[#4A5D4E] hover:text-white transition-all">Tutup Preview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-stone-200">
+        <div class="max-w-7xl mx-auto px-6 text-center md:flex justify-between items-center">
+            <p class="text-stone-400 text-sm mb-4 md:mb-0">© 2026 Griya Kulon Yogya. All Rights Reserved.</p>
+            <div class="flex justify-center gap-6">
+                <a href="https://www.instagram.com/griyakulonyogya/" target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-[#4A5D4E] transition-colors">
+                    <img src="asset/instagram.svg" alt="Instagram" class="w-5 h-5"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Reveal Animation Logic
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, observerOptions);
+
+        function initReveal() {
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initReveal();
+            initCarousel();
+        });
+
+        // Navigation Logic
+        function handleNavLink(e, targetId) {
+            e.preventDefault();
+            const homeView = document.getElementById('home-view');
+            const isAtHome = !homeView.classList.contains('hidden-view');
+            if (!isAtHome) showView('home', false); 
+            
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                const navHeight = 80;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+        }
+
+        // Facility Modal Logic
+        const facilityData = {
+            'pool': {
+                title: 'Kolam Renang Tropis',
+                desc: 'Nikmati kesegaran air biru jernih di kolam renang outdoor kami yang dikelilingi oleh taman tropis yang asri. Sempurna untuk relaksasi di pagi hari atau sore hari.',
+                image: 'asset/fs/pool.webp'
+            },
+            'pendopo': {
+                title: 'Pendopo Jawa',
+                desc: 'Bangunan tradisional yang luas dengan arsitektur kayu jati yang hangat. Bisa digunakan untuk pertemuan / acara pernikahan. Info lebih lanjut hubungi kontak yang tersedia.',
+                image: 'asset/fs/pndp.webp'  
+            },
+            'meeting': {
+                title: 'Sewa Hiace untuk Liburan & Wisata',
+                desc: 'Lengkapi perjalanan Anda di Yogyakarta dengan kenyamanan berkendara yang setara dengan istirahat Anda. Unit Hiace kami siap disewa untuk mengantar rombongan kemanapun. Info lebih lanjut hubungi kontak yang tersedia.',
+                image: 'asset/fs/Hiace.webp'
+            },
+            'parking': {
+                title: 'Area Parkir Luas',
+                desc: 'Ketenangan maksimal dimulai dari saat Anda tiba. Tak perlu khawatir soal keamanan dan akses, area parkir kami yang luas dan lega mampu menampung berbagai jenis kendaraan dengan aman.',
+                image: 'asset/fs/park.webp'
+            }
+        };
+
+        function openFacilityModal(type) {
+            const data = facilityData[type];
+            const modal = document.getElementById('facilityModal');
+            const container = document.getElementById('modalContainer');
+            
+            document.getElementById('modalImage').src = data.image;
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalDesc').innerText = data.desc;
+            
+            modal.classList.remove('invisible');
+            modal.classList.add('opacity-100');
+            container.classList.remove('scale-95');
+            container.classList.add('scale-100');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeFacilityModal() {
+            const modal = document.getElementById('facilityModal');
+            const container = document.getElementById('modalContainer');
+            
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            container.classList.remove('scale-100');
+            container.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('invisible');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Close modal on outside click
+        document.getElementById('facilityModal').addEventListener('click', (e) => {
+            if (e.target.id === 'facilityModal') closeFacilityModal();
+        });
+
+        // Carousel Logic
+        let currentSlide = 0;
+        const track = document.getElementById('carouselTrack');
+        const dotsContainer = document.getElementById('carouselDots');
+        
+        function initCarousel() {
+            const slides = document.querySelectorAll('.carousel-item');
+            if(!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            slides.forEach((_, idx) => {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-all ${idx === 0 ? 'bg-[#4A5D4E] w-6' : 'bg-stone-300'}`;
+                dot.onclick = () => goToSlide(idx);
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function updateCarousel() {
+            const slides = document.querySelectorAll('.carousel-item');
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            const dots = dotsContainer.querySelectorAll('button');
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlide) {
+                    dot.classList.add('bg-[#4A5D4E]', 'w-6');
+                    dot.classList.remove('bg-stone-300');
+                } else {
+                    dot.classList.remove('bg-[#4A5D4E]', 'w-6');
+                    dot.classList.add('bg-stone-300');
+                }
+            });
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.carousel-item');
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            const slides = document.querySelectorAll('.carousel-item');
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateCarousel();
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateCarousel();
+        }
+
+        // Room View Logic & Data
+        const roomData = {
+            'omah-gede': {
+                title: 'Omah Gede (Unit Rumah)',
+                badge: 'Sentuhan Bata Ekspo',
+                badgeClass: 'bg-[#B35C44] text-white',
+                description: 'Nikmati kemewahan tinggal di rumah pribadi dengan arsitektur modern tropis yang kental. Bagian depan rumah dihiasi dengan bata ekspo klasik yang memberikan tekstur hangat dan ikonik. Unit ini dirancang untuk memberikan privasi total bagi keluarga Anda.',
+                price: '1.850.000',
+                amenities: ['3 Kamar Tidur', 'Dapur Lengkap', 'Ruang Tamu Luas', 'Smart TV 55"', 'AC di Setiap Ruangan', 'Taman Pribadi'],
+                gallery: [
+                    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1594498653385-d5172b532c00?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80'
+                ]
+            },
+            'deluxe-room': {
+                title: 'Deluxe Room',
+                badge: 'Minimalis Tropis',
+                badgeClass: 'bg-stone-100 text-[#4A5D4E]',
+                description: 'Kamar Deluxe kami menawarkan ruang yang lebih luas dengan penataan cahaya alami yang optimal. Mengusung konsep Zen Minimalis dengan sentuhan kayu, kamar ini dilengkapi dengan balkon pribadi yang menghadap langsung ke taman asri.',
+                price: '650.000',
+                amenities: ['King Size Bed', 'Balkon Pribadi', 'Smart TV 43"', 'Meja Kerja', 'Kamar Mandi dengan Water Heater', 'Kopi & Teh Set'],
+                gallery: [
+                    'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1615874959474-d609969a20ed?auto=format&fit=crop&w=800&q=80'
+                ]
+            },
+            'superior-room': {
+                title: 'Superior Room',
+                badge: 'Pilihan Populer',
+                badgeClass: 'bg-[#4A5D4E] text-white',
+                description: 'Superior Room dirancang untuk kenyamanan istirahat maksimal Anda. Dengan desain interior yang bersih dan tempat tidur berkualitas tinggi, kamar ini menjadi pilihan terfavorit bagi pelancong bisnis maupun pasangan.',
+                price: '550.000',
+                amenities: ['Queen Size Bed', 'AC Dingin', 'Smart TV 32"', 'High Speed Wi-Fi', 'Kamar Mandi Dalam', 'Mineral Water'],
+                gallery: [
+                    'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1505691722718-628a67e5963f?auto=format&fit=crop&w=800&q=80'
+                ]
+            },
+            'standard-room': {
+                title: 'Standard Room',
+                badge: 'Hemat & Nyaman',
+                badgeClass: 'bg-stone-200 text-stone-600',
+                description: 'Bagi Anda yang mengutamakan esensi istirahat yang tenang dengan harga terjangkau. Standard Room kami tetap menjamin kebersihan dan kenyamanan standar Griya Asri dengan akses mudah ke fasilitas umum.',
+                price: '450.000',
+                amenities: ['Twin Bed / Queen Bed', 'AC', 'TV Kabel', 'Wi-Fi', 'Kamar Mandi Dalam', 'Akses Dekat Kolam'],
+                gallery: [
+                    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1512918766674-ed62b9044135?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1444201983204-c43cbd584d93?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80'
+                ]
+            },
+            'family-room': {
+                title: 'Family Room',
+                badge: 'Untuk Keluarga',
+                badgeClass: 'bg-[#D4A373] text-white',
+                description: 'Kamar khusus keluarga yang ingin tetap berada dalam satu ruangan. Ruangan ekstra luas dengan dua tempat tidur besar (2 Queen Beds) dan area duduk kecil untuk berkumpul bersama anak-anak.',
+                price: '850.000',
+                amenities: ['2 Queen Size Beds', 'Area Duduk', 'Smart TV 50"', 'Kulkas Kecil', 'Kamar Mandi Luas', 'Ekstra Handuk & Amenities'],
+                gallery: [
+                    'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1505693413171-ad1b16694a1d?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1544124499-58ec52678f50?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1512918766674-ed62b9044135?auto=format&fit=crop&w=800&q=80'
+                ]
+            }
+        };
+
+        function showView(viewId, forceTop = true) {
+            const home = document.getElementById('home-view');
+            const detail = document.getElementById('detail-view');
+            if (viewId === 'home') {
+                home.classList.remove('hidden-view');
+                detail.classList.add('hidden-view');
+                if (forceTop) window.scrollTo(0, 0);
+                setTimeout(initReveal, 100);
+            } else {
+                home.classList.add('hidden-view');
+                detail.classList.remove('hidden-view');
+                if (forceTop) window.scrollTo(0, 0);
+            }
+        }
+
+        function showRoomDetail(id) {
+            const data = roomData[id];
+            const content = `
+                <div class="grid lg:grid-cols-2 gap-12 mb-16 reveal active">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-2 aspect-[16/9] overflow-hidden rounded-3xl shadow-lg">
+                            <img src="${data.gallery[0]}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                        </div>
+                        <div class="aspect-square overflow-hidden rounded-3xl shadow-md">
+                            <img src="${data.gallery[1]}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="aspect-square overflow-hidden rounded-3xl shadow-md">
+                            <img src="${data.gallery[2]}" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <span class="${data.badgeClass} px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4 inline-block">${data.badge}</span>
+                        <h1 class="text-4xl md:text-5xl font-serif text-[#4A5D4E] mb-6">${data.title}</h1>
+                        <p class="text-stone-600 text-lg mb-8 leading-relaxed">${data.description}</p>
+                        <div class="bg-stone-50 p-8 rounded-[2rem] border border-stone-100 mb-8 shadow-sm">
+                            <h3 class="font-bold mb-4 flex items-center gap-2 text-[#4A5D4E]">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-[#D4A373]"></i> Fasilitas & Detail
+                            </h3>
+                            <div class="grid grid-cols-2 gap-y-3 gap-x-6">
+                                ${data.amenities.map(item => `
+                                    <div class="flex items-center gap-2 text-stone-600 text-sm">
+                                        <i data-lucide="check" class="w-4 h-4 text-[#4A5D4E]"></i> ${item}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between gap-4">
+                            <div>
+                                <p class="text-stone-400 text-sm italic">Harga per malam</p>
+                                <p class="text-3xl font-bold text-[#4A5D4E]">Rp ${data.price}</p>
+                            </div>
+                            <a href="https://wa.me/6281234567890" class="px-8 py-4 bg-[#4A5D4E] text-white rounded-2xl font-bold shadow-xl shadow-stone-200 hover:bg-[#3d4d40] transition-all">Pesan Sekarang</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('detail-content').innerHTML = content;
+            showView('detail', true);
+            lucide.createIcons();
+        }
+
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('h-16', 'shadow-sm');
+                nav.classList.remove('h-20');
+            } else {
+                nav.classList.remove('h-16', 'shadow-sm');
+                nav.classList.add('h-20');
+            }
+        });
+    </script>
+</body>
+</html>
